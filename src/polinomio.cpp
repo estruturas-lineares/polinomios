@@ -7,37 +7,72 @@ int Polinomio::grau_polinomio(No *no_item){
     return no_item->getExpoente();
 };
 
-Polinomio* Polinomio::adicao( Polinomio poli2){
-    No *ponteiro_atual_p1 = cabeca;
-    No *ponteiro_atual_p2 = poli2.cabeca;
+void Polinomio::combinar_termos(){
+    if (!cabeca) return;
 
-    //nova lista com resultado
-    Polinomio *resultado;
-    while (ponteiro_atual_p1 != nullptr && ponteiro_atual_p2 !=nullptr){
-        if (ponteiro_atual_p1->getExpoente() == ponteiro_atual_p2->getExpoente()){
-            int soma_bases = ponteiro_atual_p1->getBase() + ponteiro_atual_p2->getBase();
-            No no1(soma_bases, ponteiro_atual_p1->getExpoente());
-            No *no = &no1;
-            resultado->inserir_fim(no);
-            cout << "adicionado";
-        }else{
-            resultado->inserir_fim(ponteiro_atual_p1);
+
+    No* atual = cabeca;
+    No* prev = nullptr;
+
+    while(atual){
+        No* runner = atual;
+        while(runner->getProximo()){
+            if (runner->getProximo()->getExpoente() == atual->getExpoente()){
+                atual->setBase(atual->getBase() + runner->getProximo()->getBase());
+                No* temp = runner->getProximo();
+                runner->setProximo(runner->getProximo()->getProximo());
+                delete temp;
+            }
+            else
+                runner = runner->getProximo();
         }
 
-        ponteiro_atual_p1 = ponteiro_atual_p1->getProximo();
-        ponteiro_atual_p2 = ponteiro_atual_p2->getProximo();
+        if (atual->getBase() == 0){
+            No* temp = atual;
+
+            if (atual == cabeca) {
+                cabeca = atual->getProximo();
+            } else {
+                prev->setProximo(atual->getProximo());
+            }
+
+            atual = atual->getProximo();
+            delete temp;
+        }
+        else
+            prev = atual;
+            atual = atual->getProximo();
+    }
+}
+
+
+Polinomio Polinomio::operator+(const Polinomio &poli2){
+    No *atual_p1 = cabeca;
+    No *atual_p2 = poli2.cabeca;
+
+    //nova lista com resultado
+    Polinomio resultado;
+    while(atual_p1){
+        resultado.inserir_fim(atual_p1->getBase(), atual_p1->getExpoente());
+        atual_p1 = atual_p1->getProximo();
     }
 
+    while(atual_p2){
+        resultado.inserir_fim(atual_p2->getBase(), atual_p2->getExpoente());
+        atual_p2 = atual_p2->getProximo();
+    }
+
+    resultado.combinar_termos();
     return resultado;
 
 };
 
 //retornar como string depois
 void Polinomio::exibir(){
-    No *ponteiro_atual = cabeca;
-    while(ponteiro_atual != nullptr){
-        cout << ponteiro_atual->getBase() << "x" << ponteiro_atual->getExpoente() << " -> ";
-        ponteiro_atual = ponteiro_atual->getProximo();
+    No *atual = cabeca;
+    while(atual != nullptr){
+        cout << atual->getBase() << "x" << atual->getExpoente() << " -> ";
+        atual = atual->getProximo();
     }
 
 }
