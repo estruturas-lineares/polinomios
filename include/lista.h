@@ -11,8 +11,8 @@ class Lista{
     public:
     Lista();
 
-    void inserir_comeco(No *no_a_inserir);
-    void inserir_fim(No *no_a_inserir);
+    void inserir_comeco(int base, int expoente);
+    void inserir_fim(int base, int expoente);
     int tamanho();
     void mostrar_lista();
     No* obter_proximo(No *no_item);
