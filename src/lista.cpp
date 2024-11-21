@@ -4,7 +4,7 @@
 using namespace std;
 
 //construtor
-Lista::Lista(): cabeca(nullptr){};
+Lista::Lista(): cabeca(nullptr), cauda(nullptr){};
 // Destruidor
 // Lista::~Lista() {
 //         while (cabeca != nullptr) {
@@ -29,12 +29,13 @@ void Lista::inserir_fim(int base, int expoente){
     if (cabeca == nullptr){
         no_a_inserir->setProximo(cabeca);
         cabeca = no_a_inserir;
+        cauda = no_a_inserir;
     }else{
         while(atual->getProximo() != nullptr){
             atual = atual->getProximo();
         };
         atual->setProximo(no_a_inserir);
-
+        cauda = atual;
     };
 };
 
@@ -70,48 +71,44 @@ bool Lista::esta_vazia(){
     if (cabeca == nullptr) return true;
     else return false;
 }
-void Lista::excluir_comeco(No *no_a_excluir){
-    if (!esta_vazia()){
-        if (cabeca == no_a_excluir){
-            No *primeiro = cabeca;
-            cabeca = cabeca->getProximo();
-            free(primeiro);
-        }
-    }
-};
 
-void Lista::excluir_fim(No *no_a_excluir){
-    if (!esta_vazia()){
-        No *atual = cabeca;
-        while(atual !=nullptr){
-            atual = atual->getProximo();
-        }
-        if (atual == no_a_excluir){
-            free(atual);
-        }
+void Lista::excluir(No *no_a_excluir){
+    if (esta_vazia()) return;
 
-    }
-};
+    //elemento na cabeça da lista
+    if (no_a_excluir == cabeca){
+       No *atual = cabeca;
 
-void Lista::excluir_meio(No *no_a_excluir){
-    if (!esta_vazia()){
+       //removendo o único nó
+       if (cabeca == cauda){
+            cauda = nullptr;
+       }
+       cabeca = cabeca->getProximo();
+       free(atual);
+    }else{
         //ponteiro atual ja começa no segundo
         No *atual = cabeca->getProximo();
         //ponteiro anterior do atual
-        No *ponteiro_anterior = cabeca;
+        No *anterior = cabeca;
 
         while(atual !=nullptr && atual != no_a_excluir){
             atual = atual->getProximo();
-            ponteiro_anterior = ponteiro_anterior->getProximo();
+            anterior = anterior->getProximo();
 
         }
         //se o ponteiro atual é nulo, então ele é igual ao nó a ser excluído
         if (atual != nullptr){
-            ponteiro_anterior->setProximo(atual->getProximo());
+            anterior->setProximo(atual->getProximo());
+
+            if (atual->getProximo() == nullptr){
+                cauda = anterior;
+            }
             free(atual);
         }
-    };
-}
+    }
+
+    
+};
 
 
 bool Lista::existe(No *no_item){

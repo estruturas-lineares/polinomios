@@ -7,26 +7,68 @@ int Polinomio::grau_polinomio(No *no_item){
     return no_item->getExpoente();
 };
 
+// void Polinomio::combinar_termos(){
+//     if (!cabeca) return;
+
+
+//     No* atual = cabeca;
+//     No* prev = nullptr;
+
+//     while(atual){
+//         No* runner = atual;
+//         while(runner->getProximo()){
+//             if (runner->getProximo()->getExpoente() == atual->getExpoente()){
+//                 atual->setBase(atual->getBase() + runner->getProximo()->getBase());
+//                 No* temp = runner->getProximo();
+//                 runner->setProximo(runner->getProximo()->getProximo());
+//                 delete temp;
+//             }
+//             else
+//                 runner = runner->getProximo();
+//         }
+
+//         if (atual->getBase() == 0){
+//             No* temp = atual;
+
+//             if (atual == cabeca) {
+//                 cabeca = atual->getProximo();
+//             } else {
+//                 prev->setProximo(atual->getProximo());
+//             }
+
+//             atual = atual->getProximo();
+//             delete temp;
+//         }
+//         else
+//             prev = atual;
+//             atual = atual->getProximo();
+//     }
+// }
+
 void Polinomio::combinar_termos(){
-    if (!cabeca) return;
+    if (esta_vazia()) return;
 
+    No *atual = cabeca;
+    No *prev = nullptr;
 
-    No* atual = cabeca;
-    No* prev = nullptr;
-
-    while(atual){
-        No* runner = atual;
-        while(runner->getProximo()){
-            if (runner->getProximo()->getExpoente() == atual->getExpoente()){
-                atual->setBase(atual->getBase() + runner->getProximo()->getBase());
-                No* temp = runner->getProximo();
-                runner->setProximo(runner->getProximo()->getProximo());
+    //percorrer a lista 
+    while(atual != nullptr){
+        //seguinte começa no primeiro Nó após o atual
+        No *seguinte = atual->getProximo();
+        //o segundo while irá percorrer os nós seguintes para comparar com o atual
+        while (seguinte != nullptr){
+            if (seguinte->getExpoente() == atual->getExpoente()){
+                //o nó atual recebe o valor da soma dos nós com expoentes iguais
+                atual->setBase(atual->getBase() + seguinte->getBase());
+                No *temp = seguinte;
+                excluir(temp);
                 delete temp;
+            } else {
+                seguinte = seguinte->getProximo();
             }
-            else
-                runner = runner->getProximo();
         }
 
+        
         if (atual->getBase() == 0){
             No* temp = atual;
 
@@ -42,7 +84,9 @@ void Polinomio::combinar_termos(){
         else
             prev = atual;
             atual = atual->getProximo();
+    
     }
+
 }
 
 

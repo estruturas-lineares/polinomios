@@ -7,6 +7,7 @@ using namespace std;
 class Lista{
     public:
     No *cabeca;
+    No *cauda;
 
     public:
     Lista();
@@ -17,9 +18,7 @@ class Lista{
     void mostrar_lista();
     No* obter_proximo(No *no_item);
     bool esta_vazia();
-    void excluir_comeco(No *no_a_excluir);
-    void excluir_fim(No *no_a_excluir);
-    void excluir_meio(No *no_a_excluir);
+    void excluir(No *no_a_excluir);
     bool existe(No *no_item);
     No* buscar(No *no_a_buscar);
     void obter_valores(int &b, int &e, No *no_item);
