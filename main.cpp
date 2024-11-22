@@ -24,7 +24,20 @@ int main (){
 
     Polinomio p3;
     p3 = p1+p2;
-    p3.mostrar_lista();
+    cout << p3;
+    cout << "\n";
 
+    Polinomio p4;
+    p4 = p1 - p2;
+    cout << p4;
+
+    cout << "\n";
+    Polinomio p5;
+    p5 = p1 * p2;
+    p5.mostrar_lista();
+
+    cout << "\n";
+    int r = p1.avaliar(2);
+    cout << r;
     return 0;
 }

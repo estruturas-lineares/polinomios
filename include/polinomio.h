@@ -2,16 +2,21 @@
 #ifndef POLINOMIO_H
 #define POLINOMIO_H
 
-
 class Polinomio : public Lista {
 
 public:
-    int grau_polinomio(No *no_item);
-    Polinomio* subtracao(Polinomio *poli1, Polinomio *poli2);
-    Polinomio* multiplicacao(Polinomio *poli1, Polinomio *poli2);
-    Polinomio operator+(const Polinomio &poli2);
     void exibir();
-    void combinar_termos();
+    int avaliar(int x);
+    void simplificar();
+    int grau_polinomio(No *no_item);
+
+    Polinomio operator+(const Polinomio &poli2);
+    Polinomio operator-(const Polinomio &poli2);
+
+    //aqui o << é uma função amiga, significa que é externa a classe;
+    friend Polinomio operator*(const Polinomio &poli1, const Polinomio &poli2);
+    friend std::ostream& operator<<(std::ostream &os, const Polinomio &poli);
+
 };
 
 #endif // POLINOMIO_H_INCLUDED
