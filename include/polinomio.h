@@ -8,7 +8,7 @@ public:
     void exibir();
     int avaliar(int x);
     void simplificar();
-    int grau_polinomio(No *no_item);
+    int grau_polinomio();
 
     Polinomio operator+(const Polinomio &poli2);
     Polinomio operator-(const Polinomio &poli2);

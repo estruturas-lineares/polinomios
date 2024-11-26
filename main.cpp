@@ -6,11 +6,11 @@
 #include <sstream>
 using namespace std;
 
-Polinomio linha_para_polinomio(string linha){
+Polinomio linha_para_polinomio(string linha_polinomio){
     Polinomio resultado;
-    //istringstream gera uma instancia da variavel linha
+    //istringstream gera uma instancia da variavel linha_polinomio
     //que permite tratar essa string como uma entrada de dados
-    istringstream str(linha);
+    istringstream str(linha_polinomio);
     int base, expoente;
     while(str >> base >> expoente){
         resultado.inserir_fim(base, expoente);
@@ -20,26 +20,84 @@ Polinomio linha_para_polinomio(string linha){
 };
 
 int main (){
-    ifstream file("src/teste.txt");
+    ifstream file("src/file.txt");
     string linha;
+    string linha_polinomio;
 
-    cout << "oie";
+    if (!file.is_open()) {
+        return 1;
+    }
 
-    string op;
-    if (file.is_open()){
-        while(getline(file, linha)){
-            if (linha == "+"){
-                getline(file, op);
-                Polinomio p1 = linha_para_polinomio(op);
 
-                getline(file, op);
-                Polinomio p2 = linha_para_polinomio(op);
+    while (getline(file, linha)) {
+        if (linha == "+") {
 
-                cout << p1 << endl << p2 << endl;
-                cout << p1 + p2 << endl;                
-            }
+            getline(file, linha_polinomio);
+            Polinomio p1 = linha_para_polinomio(linha_polinomio);
+            getline(file, linha_polinomio);
+            Polinomio p2 = linha_para_polinomio(linha_polinomio);
+
+            cout << p1 << endl << p2 << endl;
+
+            Polinomio resultado = p1 + p2;
+            cout << "Resultado da soma: " << resultado << endl;
+
+        }else if (linha == "-") {
+
+            getline(file, linha_polinomio);
+            Polinomio p1 = linha_para_polinomio(linha_polinomio);
+            getline(file, linha_polinomio);
+            Polinomio p2 = linha_para_polinomio(linha_polinomio);
+
+            cout << p1 << endl << p2 << endl;
+
+            Polinomio resultado = p1 - p2;
+            cout << "Resultado da subtração: " << resultado << endl;
+
+        }else if (linha == "*") {
+
+            getline(file, linha_polinomio);
+            Polinomio p1 = linha_para_polinomio(linha_polinomio);
+            getline(file, linha_polinomio);
+            Polinomio p2 = linha_para_polinomio(linha_polinomio);
+
+            cout << p1 << endl << p2 << endl;
+
+            Polinomio resultado = p1 * p2;
+            cout << "Resultado da multiplicação: " << resultado << endl;
+
+        }else if (linha == "g" || linha == "G") {
+
+            getline(file, linha_polinomio);
+            Polinomio p1 = linha_para_polinomio(linha_polinomio);
+
+            cout << "Grau: " << p1.grau_polinomio();
+
+        }else if (linha == "a" || linha == "A") {
+            int x = 0;
+            cout << "Informe um valor para X:" <<endl;
+            cin >> x;
+
+            getline(file, linha_polinomio);
+            Polinomio p1 = linha_para_polinomio(linha_polinomio);
+
+            cout << "Avaliação: " << p1.avaliar(x);
+
+        }else if (linha == "t" || linha == "T") {
+            getline(file, linha_polinomio);
+            Polinomio p1 = linha_para_polinomio(linha_polinomio);
+
+            cout << "Tamanho: " << p1.tamanho();
+
+        }else if (linha == "p" || linha == "P") {
+            getline(file, linha_polinomio);
+            Polinomio p1 = linha_para_polinomio(linha_polinomio);
+
+            cout << p1 << endl;
+        }else {
+            cout << "Operador invalido!" << endl;
         }
-        file.close();
+
     }
 
 
@@ -56,8 +114,7 @@ int main (){
 
 
 
-
-
+    //testes
     // Polinomio p1;
     // Polinomio p2;
     // p1.inserir_comeco(1,3);

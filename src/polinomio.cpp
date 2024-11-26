@@ -4,8 +4,10 @@
 #include <cmath>
 using namespace std;
 
-int Polinomio::grau_polinomio(No *no_item){
-    return no_item->getExpoente();
+int Polinomio::grau_polinomio(){
+      if (esta_vazia()) return 1;
+      No *atual = cabeca;
+      return atual->getExpoente();
 };
 
 int Polinomio::avaliar(int x){
